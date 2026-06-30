@@ -1,0 +1,183 @@
+.sidebar-container {
+  position: fixed;
+  top: var(--header-height);
+  left: 72px;
+  height: calc(100vh - var(--header-height));
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  z-index: 999;
+  transition: width var(--transition-normal), box-shadow var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 1.25rem 0.5rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.sidebar-container.expanded {
+  width: var(--sidebar-expanded-width); /* 240px */
+  box-shadow: 4px 0 16px rgba(15, 23, 42, 0.03);
+}
+
+.sidebar-container.collapsed {
+  width: var(--sidebar-collapsed-width); /* 72px */
+  align-items: center;
+}
+
+/* Menu wrapper */
+.sidebar-menu-wrapper {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.sidebar-list {
+  list-style: none;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.sidebar-list-item-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Sidebar Item Button */
+.sidebar-btn-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: var(--transition-fast);
+  box-sizing: border-box;
+  position: relative; /* Context for active border indicator */
+}
+
+.sidebar-container.collapsed .sidebar-btn-item {
+  justify-content: center;
+  padding: 0.5rem 0;
+  width: 100%;
+}
+
+.btn-content-left {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* Circular Icon BG matching Google Careers styling */
+.icon-circle-bg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: var(--text-muted);
+  transition: var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.sidebar-btn-item:hover .icon-circle-bg {
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+.icon-circle-bg.active {
+  background-color: rgba(37, 99, 235, 0.12);
+  color: var(--primary);
+}
+
+.sidebar-btn-item.active {
+  color: var(--primary);
+  background-color: var(--primary-light); /* Soft background pill indicator */
+  font-weight: 700;
+}
+
+.sidebar-btn-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 25%;
+  height: 50%;
+  width: 4px;
+  background-color: var(--primary);
+  border-radius: 0 4px 4px 0;
+}
+
+.sidebar-btn-item.active .sidebar-icon {
+  color: var(--primary);
+}
+
+.sidebar-icon {
+  flex-shrink: 0;
+  transition: var(--transition-fast);
+}
+
+.sidebar-label {
+  margin-left: 0.875rem;
+  white-space: nowrap;
+  transition: opacity var(--transition-normal);
+  font-size: 0.875rem;
+}
+
+/* Hide text in collapsed state */
+.sidebar-container.collapsed .sidebar-label,
+.sidebar-container.collapsed .arrow-chevron {
+  opacity: 0;
+  display: none;
+}
+
+.arrow-chevron {
+  color: var(--text-light);
+  transition: transform var(--transition-fast);
+  margin-right: 0.5rem;
+}
+
+.sidebar-btn-item:hover .arrow-chevron {
+  color: var(--primary);
+  transform: translateX(2px);
+}
+
+/* 2. Isolated bottom footer for Logout */
+.sidebar-footer-wrapper {
+  margin-top: auto;
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.logout-icon-bg {
+  color: var(--text-light);
+}
+
+.logout-btn-item:hover {
+  color: var(--danger) !important;
+}
+
+.logout-btn-item:hover .icon-circle-bg.logout-icon-bg {
+  background-color: var(--danger-light);
+  color: var(--danger);
+}
+
+/* Scrollbar behaviors */
+.sidebar-container::-webkit-scrollbar {
+  width: 4px;
+}
+.sidebar-container::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+.sidebar-container:hover::-webkit-scrollbar-thumb {
+  background: var(--border);
+}

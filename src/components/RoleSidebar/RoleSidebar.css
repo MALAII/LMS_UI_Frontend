@@ -1,0 +1,198 @@
+.role-sidebar-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 72px;
+  background-color: var(--card-bg);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 0;
+  box-sizing: border-box;
+  z-index: 1100; /* Stays above main sidebar (z-index: 100) and header (z-index: 1000) */
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.02);
+}
+
+/* Logo container styling */
+.role-sidebar-logo-container {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.role-sidebar-toggle-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  outline: none;
+}
+
+.role-sidebar-toggle-btn:hover {
+  background-color: var(--bg);
+  color: #0073e6;
+}
+
+/* Persona selectors list */
+.role-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  width: 100%;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.role-tab-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  width: 100%;
+  color: var(--text-muted);
+  transition: var(--transition-normal);
+  outline: none;
+}
+
+.role-icon-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-normal);
+  color: #64748b;
+}
+
+.role-label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: -0.25px;
+  text-align: center;
+  transition: var(--transition-fast);
+}
+
+/* Hover States (Talent & Recruiter switcher) */
+.role-tab-btn:hover {
+  color: #0073e6;
+}
+
+.role-tab-btn:hover .role-icon-circle {
+  background-color: rgba(0, 115, 230, 0.08);
+  color: #0073e6;
+  transform: translateY(-2px);
+}
+
+/* Active State Styles */
+.role-tab-btn.active {
+  color: #0073e6;
+}
+
+.role-tab-btn.active .role-icon-circle {
+  background-color: #0073e6;
+  color: #ffffff;
+  box-shadow: 0 6px 14px rgba(0, 115, 230, 0.3);
+  transform: translateY(0);
+}
+
+.role-tab-btn.active .role-label {
+  font-weight: 800;
+  color: #0073e6;
+}
+
+/* Footer / Control items styling */
+.role-sidebar-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: center;
+  width: 100%;
+  margin-top: auto;
+}
+
+.notification-bell-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  position: relative;
+  transition: var(--transition-fast);
+}
+
+.notification-bell-btn:hover {
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+.notification-red-dot {
+  position: absolute;
+  top: 13px;
+  right: 13px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--danger);
+  border: 1px solid var(--card-bg);
+}
+
+.role-profile-avatar-container {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.role-avatar-initials {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0073e6, #4f46e5);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.role-guest-login-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background-color: var(--bg);
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast);
+  outline: none;
+}
+
+.role-guest-login-avatar:hover {
+  border-color: #0073e6;
+  color: #0073e6;
+  background-color: rgba(0, 115, 230, 0.04);
+}

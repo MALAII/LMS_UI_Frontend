@@ -1,0 +1,108 @@
+.stats-card {
+  padding: 1.5rem;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.stats-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.stats-card-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.stats-card-icon-container {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast);
+}
+
+/* Color Coding based on icon class names */
+.icon-fiusers {
+  background-color: rgba(37, 99, 235, 0.08);
+  color: var(--primary);
+}
+
+.icon-fibookopen {
+  background-color: rgba(79, 70, 229, 0.08);
+  color: var(--secondary);
+}
+
+.icon-fifiletext {
+  background-color: rgba(16, 185, 129, 0.08);
+  color: var(--success);
+}
+
+.icon-fiaward {
+  background-color: rgba(245, 158, 11, 0.08);
+  color: var(--warning);
+}
+
+.icon-ficlock {
+  background-color: rgba(37, 99, 235, 0.08);
+  color: var(--primary);
+}
+
+.icon-fichecksquare {
+  background-color: rgba(16, 185, 129, 0.08);
+  color: var(--success);
+}
+
+.stats-card-body {
+  margin-bottom: 0.5rem;
+}
+
+.stats-card-value {
+  font-size: 1.875rem;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.5px;
+}
+
+.stats-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+}
+
+.stats-card-trend {
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.stats-card-trend.trend-up {
+  color: var(--success);
+  background-color: var(--success-light);
+}
+
+.stats-card-trend.trend-down {
+  color: var(--danger);
+  background-color: var(--danger-light);
+}
+
+.stats-card-trend-label {
+  color: var(--text-light);
+  font-weight: 500;
+}
