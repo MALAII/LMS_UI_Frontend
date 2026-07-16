@@ -113,8 +113,8 @@ const featuredCampaigns = [
 ];
 
 export default function Dashboard({ user, onLoginClick }) {
-  const isAdmin = user?.role === 'admin';
-  const isStudent = user?.role === 'student';
+  const isAdmin = user?.role === 'admin' || user?.role === 'recruiter';
+  const isStudent = user?.role === 'student' || user?.role === 'candidate';
 
   const statsData = isAdmin ? [
     { title: 'Total Students', value: '12,842', icon: 'FiUsers', trend: 12.5, trendType: 'up', trendLabel: 'from last month' },

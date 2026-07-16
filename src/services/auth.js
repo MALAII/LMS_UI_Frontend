@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Set up base URL for Laravel Sanctum API
-axios.defaults.baseURL = 'http://192.168.1.31:8000/api';
+axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
 axios.defaults.headers.common['Accept'] = 'application/json';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
@@ -40,18 +40,21 @@ export const loginService = async (email, password) => {
  * Sign Up / Registration Service Call
  * @param {string} name 
  * @param {string} email 
- * @param {string} phone 
+ * @param {string} role 'candidate' | 'recruiter'
  * @param {string} password 
  * @param {string} passwordConfirmation 
  * @returns {Promise<Object>} API response data
  */
-export const signUpService = async (name, email, phone, password, passwordConfirmation) => {
+export const signUpService = async (name, email, role, password, passwordConfirmation) => {
+  // Map frontend role ('candidate' -> 'Student', 'recruiter' -> 'Recruiter')
+  const backendRole = role === 'recruiter' ? 'Recruiter' : 'Student';
+
   const response = await axios.post('/register', {
     name,
     email,
-    phone,
     password,
-    password_confirmation: passwordConfirmation
+    password_confirmation: passwordConfirmation,
+    role: backendRole
   });
   return response.data;
 };
@@ -62,6 +65,16 @@ export const signUpService = async (name, email, phone, password, passwordConfir
  */
 export const getUserProfileService = async () => {
   const response = await axios.get('/user');
+  return response.data;
+};
+
+/**
+ * Request Password Reset Link
+ * @param {string} email 
+ * @returns {Promise<Object>} API response data
+ */
+export const forgotPasswordService = async (email) => {
+  const response = await axios.post('/forgot-password', { email });
   return response.data;
 };
 
