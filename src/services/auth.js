@@ -57,6 +57,15 @@ export const signUpService = async (name, email, phone, password, passwordConfir
 };
 
 /**
+ * Fetch currently authenticated user profile
+ * @returns {Promise<Object>} API user data
+ */
+export const getUserProfileService = async () => {
+  const response = await axios.get('/user');
+  return response.data;
+};
+
+/**
  * Configure Axios global response interceptors for 401 Unauthorized logouts
  * @param {Function} onUnauthorized callback when token expires or is invalid
  */
