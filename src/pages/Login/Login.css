@@ -213,6 +213,20 @@
   animation: slideDownFade 0.2s ease;
 }
 
+/* Success Banner */
+.login-success-alert {
+  background-color: var(--success-light);
+  color: var(--success);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-align: left;
+  margin-bottom: 1.5rem;
+  animation: slideDownFade 0.2s ease;
+}
+
 @keyframes slideDownFade {
   from {
     opacity: 0;

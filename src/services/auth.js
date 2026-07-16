@@ -1,79 +1,75 @@
-/**
- * Authentication Service (Mock implementation for Frontend Prototyping)
- * 
- * Instructions for Backend Integration:
- * When the backend endpoints are ready, replace the setTimeout Promises below
- * with actual fetch() or axios requests to your backend server.
- */
+import axios from 'axios';
+
+// Set up base URL for Laravel Sanctum API
+axios.defaults.baseURL = 'http://192.168.1.31:8000/api';
+axios.defaults.headers.common['Accept'] = 'application/json';
+axios.defaults.headers.common['Content-Type'] = 'application/json';
+
+// Retrieve cached token on startup to configure default authorization header
+const cachedUser = localStorage.getItem('currentUser');
+if (cachedUser) {
+  try {
+    const parsed = JSON.parse(cachedUser);
+    if (parsed.token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${parsed.token}`;
+    }
+  } catch (e) {
+    console.error("Failed to parse cached user token", e);
+  }
+}
 
 /**
  * Sign In Service Call
  * @param {string} email 
  * @param {string} password 
- * @returns {Promise<Object>} User session profile object
+ * @returns {Promise<Object>} API response data with user and token
  */
-export const loginService = (email, password) => {
-  return new Promise((resolve, reject) => {
-    // Simulate API call latency (800ms)
-    setTimeout(() => {
-      // Validate mock credentials or format
-      if (!email || !password) {
-        reject(new Error("Email and password are required."));
-        return;
-      }
-
-      // Route based on mock credentials
-      if (email.toLowerCase().includes('admin')) {
-        resolve({
-          name: 'Alex Morgan',
-          email: email,
-          role: 'admin',
-          roleLabel: 'Administrator',
-          initials: 'AM',
-          token: 'mock-jwt-token-admin-12345'
-        });
-      } else {
-        resolve({
-          name: 'Sarah Jenkins',
-          email: email,
-          role: 'student',
-          roleLabel: 'Student Member',
-          initials: 'SJ',
-          token: 'mock-jwt-token-student-67890'
-        });
-      }
-    }, 800);
-  });
+export const loginService = async (email, password) => {
+  const response = await axios.post('/login', { email, password });
+  const data = response.data;
+  
+  // Set default authorization header on successful login
+  if (data.token) {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+  }
+  
+  return data;
 };
 
 /**
  * Sign Up / Registration Service Call
- * @param {string} fullName 
+ * @param {string} name 
  * @param {string} email 
+ * @param {string} phone 
  * @param {string} password 
- * @param {string} role 'student' | 'admin'
- * @returns {Promise<Object>} User session profile object
+ * @param {string} passwordConfirmation 
+ * @returns {Promise<Object>} API response data
  */
-export const signUpService = (fullName, email, password, role) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (!fullName.trim() || !email || !password) {
-        reject(new Error("Please fill in all registration fields."));
-        return;
-      }
-
-      // Generate custom user profile details
-      const nameParts = fullName.trim().split(/\s+/);
-      const initials = nameParts.map(part => part[0]).join('').toUpperCase().slice(0, 2) || 'U';
-
-      resolve({
-        name: fullName.trim(),
-        email: email,
-        role: role,
-        roleLabel: role === 'admin' ? 'Administrator' : 'Student Member',
-        initials: initials,
-        token: 'mock-jwt-token-newly-registered'
-      });
-    }, 800);
+export const signUpService = async (name, email, phone, password, passwordConfirmation) => {
+  const response = await axios.post('/register', {
+    name,
+    email,
+    phone,
+    password,
+    password_confirmation: passwordConfirmation
   });
+  return response.data;
+};
+
+/**
+ * Configure Axios global response interceptors for 401 Unauthorized logouts
+ * @param {Function} onUnauthorized callback when token expires or is invalid
+ */
+export const configureAuthInterceptors = (onUnauthorized) => {
+  axios.interceptors.response.use(
+    response => response,
+    error => {
+      if (error.response?.status === 401) {
+        if (onUnauthorized) {
+          onUnauthorized();
+        }
+      }
+      return Promise.reject(error);
+    }
+  );
 };

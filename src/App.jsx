@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
+import axios from 'axios';
 import Header from './components/Header/Header';
 import Sidebar from './components/Sidebar/Sidebar';
 import RoleSidebar from './components/RoleSidebar/RoleSidebar';
 import AppRoutes from './routes/AppRoutes';
 import Login from './pages/Login/Login';
+import { configureAuthInterceptors } from './services/auth';
 import './App.css';
 
 export default function App() {
@@ -18,6 +20,14 @@ export default function App() {
 
   // Desktop defaults to expanded, tablets and mobile default to collapsed
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(window.innerWidth > 1024);
+
+  // Set up auth response interceptors for 401 logouts
+  useEffect(() => {
+    configureAuthInterceptors(() => {
+      handleLogout();
+      setIsLoginModalOpen(true);
+    });
+  }, []);
 
   // Automatically adjust sidebar expansion on window resize
   useEffect(() => {
@@ -47,6 +57,7 @@ export default function App() {
     setCurrentUser(null);
     localStorage.removeItem('currentUser');
     localStorage.removeItem('isLoggedIn');
+    delete axios.defaults.headers.common['Authorization'];
   };
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
