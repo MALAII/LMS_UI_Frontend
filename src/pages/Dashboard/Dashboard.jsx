@@ -212,24 +212,26 @@ export default function Dashboard({ user, onLoginClick }) {
           </div>
         </section>
 
-        {/* 2. Unstop-style Horizontal Categories pills */}
+        {/* 2. Unstop-style Horizontal Categories pills with Infinite Marquee Slider */}
         <section className="categories-section">
-          <div className="categories-grid">
-            {categories.map((cat) => {
-              const Icon = cat.icon;
-              return (
-                <div 
-                  key={cat.id} 
-                  className={`category-pill-card pill-${cat.color}`}
-                  onClick={onLoginClick}
-                >
-                  <div className="cat-icon-container">
-                    <Icon size={20} />
+          <div className="categories-slider-container">
+            <div className="categories-marquee-track">
+              {[...categories, ...categories].map((cat, index) => {
+                const Icon = cat.icon;
+                return (
+                  <div 
+                    key={`${cat.id}-${index}`} 
+                    className={`category-pill-card pill-${cat.color}`}
+                    onClick={onLoginClick}
+                  >
+                    <div className="cat-icon-container">
+                      <Icon size={20} />
+                    </div>
+                    <span className="cat-label">{cat.label}</span>
                   </div>
-                  <span className="cat-label">{cat.label}</span>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </section>
 

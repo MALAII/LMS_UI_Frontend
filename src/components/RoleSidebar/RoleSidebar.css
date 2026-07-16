@@ -4,8 +4,8 @@
   left: 0;
   bottom: 0;
   width: 72px;
-  background-color: var(--card-bg);
-  border-right: 1px solid var(--border);
+  background-color: #111622;
+  border-right: 1px solid #1a202c;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,7 +13,7 @@
   padding: 1.25rem 0;
   box-sizing: border-box;
   z-index: 1100; /* Stays above main sidebar (z-index: 100) and header (z-index: 1000) */
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Logo container styling */
@@ -34,15 +34,15 @@
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  color: var(--text-muted);
+  color: #a1a1aa;
   cursor: pointer;
   transition: var(--transition-fast);
   outline: none;
 }
 
 .role-sidebar-toggle-btn:hover {
-  background-color: var(--bg);
-  color: #0073e6;
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
 }
 
 /* Persona selectors list */
@@ -65,7 +65,7 @@
   gap: 0.35rem;
   cursor: pointer;
   width: 100%;
-  color: var(--text-muted);
+  color: #a1a1aa;
   transition: var(--transition-normal);
   outline: none;
 }
@@ -78,7 +78,7 @@
   align-items: center;
   justify-content: center;
   transition: var(--transition-normal);
-  color: #64748b;
+  color: #a1a1aa;
 }
 
 .role-label {
@@ -87,34 +87,35 @@
   letter-spacing: -0.25px;
   text-align: center;
   transition: var(--transition-fast);
+  color: #a1a1aa;
 }
 
 /* Hover States (Talent & Recruiter switcher) */
 .role-tab-btn:hover {
-  color: #0073e6;
+  color: #ffffff;
 }
 
 .role-tab-btn:hover .role-icon-circle {
-  background-color: rgba(0, 115, 230, 0.08);
-  color: #0073e6;
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
   transform: translateY(-2px);
 }
 
 /* Active State Styles */
 .role-tab-btn.active {
-  color: #0073e6;
+  color: #ffffff;
 }
 
 .role-tab-btn.active .role-icon-circle {
-  background-color: #0073e6;
+  background-color: #e53e3e;
   color: #ffffff;
-  box-shadow: 0 6px 14px rgba(0, 115, 230, 0.3);
+  box-shadow: 0 6px 14px rgba(229, 62, 62, 0.3);
   transform: translateY(0);
 }
 
 .role-tab-btn.active .role-label {
   font-weight: 800;
-  color: #0073e6;
+  color: #ffffff;
 }
 
 /* Footer / Control items styling */
@@ -134,14 +135,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-muted);
+  color: #a1a1aa;
   position: relative;
   transition: var(--transition-fast);
 }
 
 .notification-bell-btn:hover {
-  background-color: var(--bg);
-  color: var(--text);
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
 }
 
 .notification-red-dot {
@@ -151,8 +152,8 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: var(--danger);
-  border: 1px solid var(--card-bg);
+  background-color: #e53e3e;
+  border: 1px solid #111622;
 }
 
 .role-profile-avatar-container {
@@ -167,7 +168,7 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #0073e6, #4f46e5);
+  background: linear-gradient(135deg, #e53e3e, #c53030);
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -181,9 +182,9 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: 1.5px solid var(--border);
-  background-color: var(--bg);
-  color: var(--text-light);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  background-color: transparent;
+  color: #a1a1aa;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -192,7 +193,7 @@
 }
 
 .role-guest-login-avatar:hover {
-  border-color: #0073e6;
-  color: #0073e6;
-  background-color: rgba(0, 115, 230, 0.04);
+  border-color: #ffffff;
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.08);
 }

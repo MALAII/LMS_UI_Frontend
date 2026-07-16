@@ -2,18 +2,18 @@
 
 :root {
   /* Colors */
-  --primary: #2563EB;
-  --primary-hover: #1D4ED8;
-  --primary-light: #EFF6FF;
-  --secondary: #4F46E5;
-  --secondary-light: #EEF2FF;
-  --bg: #F8FAFC;
-  --text: #0F172A;
-  --text-muted: #64748B;
-  --text-light: #94A3B8;
-  --border: #E2E8F0;
+  --primary: #e53e3e;
+  --primary-hover: #c53030;
+  --primary-light: #fff5f5;
+  --secondary: #181f2c;
+  --secondary-light: #f7fafc;
+  --bg: #f4f6f9;
+  --text: #1a202c;
+  --text-muted: #718096;
+  --text-light: #a0aec0;
+  --border: #edf2f7;
   --card-bg: #FFFFFF;
-  --sidebar-bg: #FFFFFF;
+  --sidebar-bg: #181f2c;
   
   /* Status Colors */
   --success: #10B981;
@@ -31,9 +31,9 @@
   /* Shadows */
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.02);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-  --shadow-lg: 0 10px 15px -3px rgba(37, 99, 235, 0.04), 0 4px 6px -4px rgba(37, 99, 235, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(220, 38, 38, 0.04), 0 4px 6px -4px rgba(220, 38, 38, 0.04);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
-  --shadow-primary: 0 10px 15px -3px rgba(37, 99, 235, 0.25);
+  --shadow-primary: 0 10px 15px -3px rgba(220, 38, 38, 0.25);
   
   /* Fonts */
   --sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
@@ -58,7 +58,7 @@
 body {
   font-family: var(--sans);
   background-color: var(--bg);
-  background-image: radial-gradient(circle at top right, rgba(79, 70, 229, 0.05) 0%, rgba(37, 99, 235, 0.02) 40%, var(--bg) 100%);
+  background-image: radial-gradient(circle at top right, rgba(229, 62, 62, 0.03) 0%, rgba(197, 48, 48, 0.01) 40%, var(--bg) 100%);
   background-attachment: fixed;
   color: var(--text);
   min-height: 100vh;

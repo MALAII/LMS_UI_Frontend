@@ -3,8 +3,8 @@
   top: var(--header-height);
   left: 72px;
   height: calc(100vh - var(--header-height));
-  background-color: var(--sidebar-bg);
-  border-right: 1px solid var(--border);
+  background-color: #ffffff;
+  border-right: 1px solid #edf2f7;
   z-index: 999;
   transition: width var(--transition-normal), box-shadow var(--transition-normal);
   display: flex;
@@ -54,7 +54,7 @@
   width: 100%;
   padding: 0.5rem;
   border-radius: 12px;
-  color: var(--text-muted);
+  color: #475569;
   font-weight: 600;
   font-size: 0.875rem;
   transition: var(--transition-fast);
@@ -83,24 +83,27 @@
   align-items: center;
   justify-content: center;
   background-color: transparent;
-  color: var(--text-muted);
+  color: #475569;
   transition: var(--transition-fast);
   flex-shrink: 0;
 }
 
+.sidebar-btn-item:hover {
+  background-color: var(--primary-light);
+  color: var(--primary);
+}
+
 .sidebar-btn-item:hover .icon-circle-bg {
-  background-color: var(--bg);
-  color: var(--text);
+  color: var(--primary);
 }
 
 .icon-circle-bg.active {
-  background-color: rgba(37, 99, 235, 0.12);
   color: var(--primary);
 }
 
 .sidebar-btn-item.active {
   color: var(--primary);
-  background-color: var(--primary-light); /* Soft background pill indicator */
+  background-color: var(--primary-light);
   font-weight: 700;
 }
 
@@ -139,7 +142,7 @@
 }
 
 .arrow-chevron {
-  color: var(--text-light);
+  color: #94a3b8;
   transition: transform var(--transition-fast);
   margin-right: 0.5rem;
 }
@@ -152,22 +155,22 @@
 /* 2. Isolated bottom footer for Logout */
 .sidebar-footer-wrapper {
   margin-top: auto;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid #edf2f7;
   padding-top: 1rem;
   width: 100%;
   box-sizing: border-box;
 }
 
 .logout-icon-bg {
-  color: var(--text-light);
+  color: #475569;
 }
 
 .logout-btn-item:hover {
   color: var(--danger) !important;
+  background-color: var(--danger-light);
 }
 
 .logout-btn-item:hover .icon-circle-bg.logout-icon-bg {
-  background-color: var(--danger-light);
   color: var(--danger);
 }
 

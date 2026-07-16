@@ -7,6 +7,13 @@
   border: 1px solid var(--border);
   box-shadow: var(--shadow-sm);
   height: 100%;
+  transition: var(--transition-normal);
+}
+
+.course-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary);
+  box-shadow: 0 12px 24px -10px rgba(229, 62, 62, 0.15);
 }
 
 /* Image Thumbnail Area */

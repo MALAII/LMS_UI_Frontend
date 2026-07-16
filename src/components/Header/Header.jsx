@@ -47,8 +47,7 @@ export default function Header({ toggleSidebar, isSidebarExpanded, logout, user,
     <header className="header-container">
       <div className="header-left">
         <div className="logo-container">
-          <div className="logo-icon"></div>
-          <span className="logo-text">RedBack<span className="logo-accent"></span></span>
+          <img src="/redback_logo.png" alt="RedBack Logo" className="header-logo-img" />
         </div>
       </div>
 

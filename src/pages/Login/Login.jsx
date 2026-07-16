@@ -99,8 +99,7 @@ export default function Login({ onLogin, onClose }) {
         )}
         {/* Logo and Branding header */}
         <div className="login-brand-header">
-          <div className="brand-logo-circle"></div>
-          <span className="brand-name">RedBack<span className="brand-accent">.</span></span>
+          <img src="/redback_logo.png" alt="RedBack Logo" className="login-logo-img" />
         </div>
 
         <div className="login-card-title-group">
