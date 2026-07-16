@@ -51,6 +51,10 @@ export default function Login({ onLogin, onClose }) {
       setError('Please fill in all fields.');
       return;
     }
+    if (isSignUp && password.length < 8) {
+      setError('Password must be at least 8 characters.');
+      return;
+    }
     if (isSignUp && password !== confirmPassword) {
       setError('Passwords do not match.');
       return;
