@@ -49,35 +49,6 @@ export default function RoleSidebar({ activePersona, onPersonaChange, user, onLo
         </button>
       </div>
 
-      {/* Bottom Profile / Notification controls */}
-      <div className="role-sidebar-footer">
-        <button
-          type="button"
-          className="role-footer-btn notification-bell-btn"
-          onClick={handleNotificationClick}
-          aria-label="Notifications"
-        >
-          <FiBell size={20} />
-          {user && <span className="notification-red-dot"></span>}
-        </button>
-
-        <div className="role-profile-avatar-container">
-          {user ? (
-            <div className="role-avatar-initials" title={`${user.name} (${user.roleLabel})`}>
-              {user.initials}
-            </div>
-          ) : (
-            <button
-              type="button"
-              className="role-guest-login-avatar"
-              onClick={onLoginClick}
-              title="Click to Sign In"
-            >
-              <FiUser size={18} />
-            </button>
-          )}
-        </div>
-      </div>
     </aside>
   );
 }

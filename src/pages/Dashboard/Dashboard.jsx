@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   FiArrowRight, FiBriefcase, FiSearch, FiAward, FiFileText, 
   FiVideo, FiUsers, FiBookOpen, FiClock, FiCheckSquare 
 } from 'react-icons/fi';
+import { sendVerificationEmailService } from '../../services/auth';
 import StatsCard from '../../components/StatsCard/StatsCard';
 import CourseCard from '../../components/CourseCard/CourseCard';
 import ActivityCard from '../../components/ActivityCard/ActivityCard';
@@ -116,6 +117,24 @@ export default function Dashboard({ user, onLoginClick }) {
   const isAdmin = user?.role === 'admin' || user?.role === 'recruiter';
   const isStudent = user?.role === 'student' || user?.role === 'candidate';
 
+  const [resendingEmail, setResendingEmail] = useState(false);
+  const [resendSuccess, setResendSuccess] = useState(false);
+  const [resendError, setResendError] = useState('');
+
+  const handleResendVerification = async () => {
+    setResendingEmail(true);
+    setResendSuccess(false);
+    setResendError('');
+    try {
+      await sendVerificationEmailService();
+      setResendSuccess(true);
+    } catch (err) {
+      setResendError(err.response?.data?.message || err.message || 'Failed to send verification notification.');
+    } finally {
+      setResendingEmail(false);
+    }
+  };
+
   const statsData = isAdmin ? [
     { title: 'Total Students', value: '12,842', icon: 'FiUsers', trend: 12.5, trendType: 'up', trendLabel: 'from last month' },
     { title: 'Active Courses', value: '45', icon: 'FiBookOpen', trend: 4.8, trendType: 'up', trendLabel: 'new courses added' },
@@ -165,6 +184,22 @@ export default function Dashboard({ user, onLoginClick }) {
       thumbnail: 'linear-gradient(135deg, #6366F1 0%, #4338CA 100%)', 
       category: 'Development',
       rating: 4.9 
+    },
+    { 
+      title: 'Data Science & AI', 
+      instructor: 'Andrew Ng', 
+      progress: 45, 
+      thumbnail: 'linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%)', 
+      category: 'AI & Data',
+      rating: 4.9 
+    },
+    { 
+      title: 'Laravel Masterclass', 
+      instructor: 'Taylor Otwell', 
+      progress: 90, 
+      thumbnail: 'linear-gradient(135deg, #f43f5e 0%, #e11d48 100%)', 
+      category: 'Development',
+      rating: 4.8 
     }
   ];
 
@@ -282,6 +317,60 @@ export default function Dashboard({ user, onLoginClick }) {
   // Authenticated view (After Login)
   return (
     <div className="dashboard-page">
+      {user && !user.email_verified_at && (
+        <div 
+          className="email-verification-warning-banner"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            backgroundColor: '#fff5f5',
+            border: '1px solid #ffe4e6',
+            borderRadius: '16px',
+            padding: '1rem 1.5rem',
+            marginBottom: '1.5rem',
+            color: '#b91c1c',
+            fontSize: '0.9rem',
+            fontWeight: 500,
+            boxShadow: 'var(--shadow-sm)',
+            boxSizing: 'border-box'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <span style={{ fontSize: '1.2rem' }}>⚠️</span>
+            <span>
+              Your email address is not verified. Please check your inbox for a verification link.
+            </span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            {resendSuccess ? (
+              <span style={{ color: '#10b981', fontWeight: 600 }}>Verification email sent!</span>
+            ) : resendError ? (
+              <span style={{ color: '#ef4444', fontWeight: 600 }}>{resendError}</span>
+            ) : null}
+            <button
+              type="button"
+              onClick={handleResendVerification}
+              disabled={resendingEmail}
+              style={{
+                backgroundColor: '#e11d48',
+                color: 'white',
+                border: 'none',
+                padding: '0.5rem 1rem',
+                borderRadius: '8px',
+                fontWeight: 700,
+                fontSize: '0.8rem',
+                cursor: 'pointer',
+                transition: 'background-color 0.2s'
+              }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = '#be123c'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = '#e11d48'}
+            >
+              {resendingEmail ? 'Sending...' : 'Resend Verification Email'}
+            </button>
+          </div>
+        </div>
+      )}
       {/* 1. Hero Section (Google Careers Card Style) */}
       <section className="dashboard-hero glassmorphism">
         <div className="hero-text-content">

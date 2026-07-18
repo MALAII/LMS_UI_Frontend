@@ -12,8 +12,9 @@
   border: 1px solid var(--border);
   border-radius: 24px;
   box-shadow: var(--shadow-sm);
-  overflow: hidden;
+  overflow: visible;
   min-height: 520px;
+  position: relative;
 }
 
 /* Internal Sidebar */
@@ -26,6 +27,12 @@
   flex-direction: column;
   gap: 0.25rem;
   flex-shrink: 0;
+  position: sticky;
+  top: 90px;
+  align-self: flex-start;
+  z-index: 10;
+  border-top-left-radius: 24px;
+  border-bottom-left-radius: 24px;
 }
 
 .settings-tab-btn {
@@ -190,32 +197,50 @@
 }
 
 .form-group label {
-  font-size: 0.8125rem;
-  font-weight: 700;
-  color: var(--text);
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 0.5rem;
   text-align: left;
 }
 
 .form-group input, .form-group textarea, .form-group select {
-  border: 1px solid var(--border);
-  background-color: var(--bg);
-  color: var(--text);
-  border-radius: 10px;
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  background-color: #f8fafc;
+  color: #0f172a;
+  border-radius: 8px;
   padding: 0.75rem 1rem;
   font-size: 0.875rem;
-  transition: var(--transition-normal);
+  font-family: inherit;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
 }
 
 .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
-  border-color: var(--primary);
-  background-color: var(--card-bg);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  border-color: #3b82f6;
+  background-color: #ffffff;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 0 0 3px rgba(59, 130, 246, 0.15);
+  outline: none;
+}
+
+.form-group input:disabled,
+.form-group textarea:disabled,
+.form-group select:disabled {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+  color: #64748b !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+  box-shadow: none !important;
 }
 
 .form-group input.disabled-input {
   background-color: #F1F5F9;
   color: var(--text-light);
   cursor: not-allowed;
+  pointer-events: none !important;
 }
 
 /* Notification switches list */
@@ -923,5 +948,516 @@
   }
   .save-settings-btn {
     justify-content: center;
+  }
+}
+
+/* Custom Confirmation Modal Overlay */
+.settings-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 3rem 0;
+  overflow-y: auto;
+  z-index: 100000;
+  animation: fadeInOverlay 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.settings-modal-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 440px;
+  padding: 2.25rem 2rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  text-align: center;
+  box-sizing: border-box;
+  animation: slideInModal 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.settings-modal-icon-wrapper {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #fff5f5;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem auto;
+}
+
+.settings-modal-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.5px;
+}
+
+.settings-modal-desc {
+  font-size: 0.935rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 1.75rem;
+}
+
+.settings-modal-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.settings-modal-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.settings-modal-btn.cancel-btn {
+  background-color: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+.settings-modal-btn.cancel-btn:hover {
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+.settings-modal-btn.confirm-btn {
+  background-color: var(--primary);
+  border: 1px solid var(--primary);
+  color: white;
+}
+
+.settings-modal-btn.confirm-btn:hover {
+  background-color: #b91c1c;
+  transform: translateY(-1px);
+}
+
+@keyframes fadeInOverlay {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInModal {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.linkedin-profile-widget {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+}
+
+.linkedin-banner-wrapper {
+  position: relative;
+  height: 140px;
+  width: 100%;
+}
+
+.linkedin-banner-placeholder {
+  height: 100%;
+  width: 100%;
+  background-color: #cbd5e1;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 3px solid #ef4444;
+}
+
+.linkedin-banner-edit-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  background-color: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: white;
+  padding: 0.5rem 0.875rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  backdrop-filter: blur(4px);
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.linkedin-banner-edit-btn:hover {
+  background-color: rgba(15, 23, 42, 0.85);
+  transform: scale(1.02);
+}
+
+.linkedin-profile-header-content {
+  padding: 0 2rem 2rem 2rem;
+  position: relative;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+.linkedin-avatar-container {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  margin-top: -55px; /* Pulls it up to overlap the banner */
+  margin-bottom: 1rem;
+  z-index: 5;
+}
+
+.linkedin-avatar-circle {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: var(--primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.25rem;
+  font-weight: 800;
+  border: 4px solid var(--card-bg);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+.linkedin-avatar-add-btn {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  background-color: #ffffff;
+  color: #3b82f6;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+  z-index: 6;
+}
+
+.linkedin-avatar-add-btn:hover {
+  transform: scale(1.1);
+  background-color: #f8fafc;
+}
+
+.linkedin-details-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.linkedin-primary-info {
+  flex: 1;
+}
+
+.linkedin-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.linkedin-name-heading {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.linkedin-pronouns {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.linkedin-headline-heading {
+  font-size: 0.9rem;
+  color: var(--text);
+  margin: 0 0 0.75rem 0;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.linkedin-metadata-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.825rem;
+  color: var(--text-muted);
+}
+
+.linkedin-meta-separator {
+  color: var(--border);
+}
+
+.linkedin-contact-info-btn {
+  color: #3b82f6;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.linkedin-contact-info-btn:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+.linkedin-secondary-info {
+  width: 240px;
+  flex-shrink: 0;
+}
+
+.linkedin-org-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: left;
+}
+
+.linkedin-org-logo {
+  font-size: 1.25rem;
+}
+
+.linkedin-org-name {
+  font-size: 0.825rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+@media (max-width: 768px) {
+  .linkedin-details-row {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .linkedin-secondary-info {
+    width: 100%;
+  }
+}
+
+/* Premium Edit Icons inside Input Fields */
+.settings-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.settings-input-wrapper input,
+.settings-input-wrapper textarea {
+  width: 100% !important;
+  padding-right: 2.5rem !important;
+  border: 1.5px solid var(--border) !important;
+  border-radius: 12px !important;
+  transition: all 0.25s ease !important;
+  background-color: var(--card-bg) !important;
+}
+
+.settings-input-wrapper input:focus,
+.settings-input-wrapper textarea:focus {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 4px var(--primary-light) !important;
+  background-color: #fff !important;
+}
+
+.input-edit-icon {
+  position: absolute;
+  right: 1rem;
+  color: var(--text-muted);
+  pointer-events: none;
+  transition: all 0.25s ease;
+  opacity: 0.7;
+}
+
+.settings-input-wrapper input:focus ~ .input-edit-icon,
+.settings-input-wrapper textarea:focus ~ .input-edit-icon {
+  color: var(--primary);
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.settings-toast-container {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .settings-toast-container {
+    right: 1rem;
+    top: 1rem;
+  }
+}
+
+.settings-toast {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  padding: 0.875rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text);
+  pointer-events: auto;
+  animation: toastSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  max-width: 420px;
+}
+
+.settings-toast.success {
+  border-left: 4px solid #10b981;
+}
+
+.settings-toast.info {
+  border-left: 4px solid var(--primary);
+}
+
+.settings-toast.error {
+  border-left: 4px solid #ef4444;
+}
+
+.settings-toast-icon.success {
+  color: #10b981;
+}
+
+.settings-toast-icon.info {
+  color: var(--primary);
+}
+
+.settings-toast-icon.error {
+  color: #ef4444;
+}
+
+@keyframes toastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Modal container styling */
+.profile-edit-modal {
+  background-color: #ffffff;
+  border-radius: 12px;
+  width: 95%;
+  max-width: 680px;
+  max-height: calc(100vh - 6rem);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: slideInModal 0.2s ease-out;
+  border: 1px solid #e2e8f0;
+}
+
+/* Modal header */
+.profile-edit-modal-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile-edit-modal-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.profile-edit-modal-close {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.profile-edit-modal-close:hover {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+/* Modal content */
+.profile-edit-modal-content {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Modal footer */
+.profile-edit-modal-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  background-color: #f8fafc;
+}
+
+/* Static section cards styling */
+.settings-section-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+@keyframes fadeInModal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInModal {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }

@@ -16,24 +16,14 @@ export default function Login({ onLogin, onClose }) {
   const [successMsg, setSuccessMsg] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Automatically pre-fill credentials when activeRole tab changes (only in Sign In mode)
+  // Reset fields when views change
   useEffect(() => {
     setError('');
     setSuccessMsg('');
-    if (isSignUp || isForgotPassword) {
-      setEmail('');
-      setPassword('');
-      setConfirmPassword('');
-      setFullName('');
-    } else {
-      if (activeRole === 'candidate') {
-        setEmail('student@gmail.com');
-        setPassword('student123');
-      } else {
-        setEmail('admin@eduvantage.com');
-        setPassword('admin123');
-      }
-    }
+    setEmail('');
+    setPassword('');
+    setConfirmPassword('');
+    setFullName('');
   }, [activeRole, isSignUp, isForgotPassword]);
 
   const handleSubmit = async (e) => {
@@ -101,21 +91,62 @@ export default function Login({ onLogin, onClose }) {
         const responseData = await loginService(email, password);
         setLoading(false);
         
+        // Handle both direct response data and data-nested response schemas
+        const loginData = responseData.data || responseData;
+        const userObj = loginData.user || responseData.user;
+        const tokenVal = loginData.token || responseData.token;
+        
+        if (!userObj) {
+          throw new Error("Invalid response schema from authentication backend.");
+        }
+        
         // Map the backend Laravel Sanctum response structure to frontend model
-        const userRole = responseData.user.roles?.[0]?.name?.toLowerCase() || 'student';
+        const userRole = userObj.roles?.[0]?.name?.toLowerCase() || userObj.role?.toLowerCase() || 'student';
         const mappedRole = (userRole === 'admin' || userRole === 'recruiter' || userRole === 'employer') ? 'recruiter' : 'candidate';
         
-        const nameParts = responseData.user.name.split(/\s+/);
+        const nameParts = (userObj.name || '').split(/\s+/);
         const initials = nameParts.map(part => part[0]).join('').toUpperCase().slice(0, 2) || 'U';
         
         const processedUser = {
-          id: responseData.user.id,
-          name: responseData.user.name,
-          email: responseData.user.email,
+          id: userObj.id,
+          name: userObj.name,
+          email: userObj.email,
           role: mappedRole,
-          roleLabel: responseData.user.roles?.[0]?.name || 'Student',
+          roleLabel: userObj.roles?.[0]?.name || (mappedRole === 'recruiter' ? 'Recruiter' : 'Student'),
           initials: initials,
-          token: responseData.token
+          token: tokenVal,
+          email_verified_at: userObj.email_verified_at,
+          
+          // Candidate / Student profile fields
+          profession: userObj.profession || userObj.profile?.profession || userObj.candidate_profile?.profession || null,
+          institution: userObj.institution || userObj.profile?.institution || userObj.candidate_profile?.institution || null,
+          phone: userObj.phone || null,
+          about: userObj.about || userObj.profile?.about || userObj.candidate_profile?.about || null,
+          avatar: userObj.avatar || null,
+          skills: userObj.skills || userObj.profile?.skills || userObj.candidate_profile?.skills || null,
+          education: userObj.education || userObj.profile?.education || userObj.candidate_profile?.education || null,
+          work_experience: userObj.work_experience || userObj.profile?.work_experience || userObj.candidate_profile?.work_experience || null,
+          resume_path: userObj.resume_path || userObj.profile?.resume_path || userObj.candidate_profile?.resume_path || null,
+          responsibilities: userObj.responsibilities || userObj.profile?.responsibilities || userObj.candidate_profile?.responsibilities || null,
+          certificates: userObj.certificates || userObj.profile?.certificates || userObj.candidate_profile?.certificates || null,
+          projects: userObj.projects || userObj.profile?.projects || userObj.candidate_profile?.projects || null,
+          achievements: userObj.achievements || userObj.profile?.achievements || userObj.candidate_profile?.achievements || null,
+          social_links: userObj.social_links || userObj.profile?.social_links || userObj.candidate_profile?.social_links || null,
+          
+          // Recruiter / Company profile fields
+          designation: userObj.designation || userObj.profile?.designation || userObj.recruiter_profile?.designation || null,
+          department: userObj.department || userObj.profile?.department || userObj.recruiter_profile?.department || null,
+          phone_extension: userObj.phone_extension || userObj.profile?.phone_extension || userObj.recruiter_profile?.phone_extension || null,
+          
+          // Nested company relation fields
+          company_name: userObj.company_name || userObj.profile?.company?.company_name || userObj.recruiter_profile?.company?.company_name || userObj.company?.company_name || null,
+          company_logo: userObj.company_logo || userObj.profile?.company?.logo || userObj.recruiter_profile?.company?.logo || userObj.company?.logo || null,
+          company_website: userObj.company_website || userObj.profile?.company?.website || userObj.recruiter_profile?.company?.website || userObj.company?.website || null,
+          company_industry: userObj.company_industry || userObj.profile?.company?.industry || userObj.recruiter_profile?.company?.industry || userObj.company?.industry || null,
+          company_size: userObj.company_size || userObj.profile?.company?.company_size || userObj.recruiter_profile?.company?.company_size || userObj.company?.company_size || null,
+          company_description: userObj.company_description || userObj.profile?.company?.description || userObj.recruiter_profile?.company?.description || userObj.company?.description || null,
+          company_gst: userObj.company_gst || userObj.profile?.company?.gst_number || userObj.recruiter_profile?.company?.gst_number || userObj.company?.gst_number || null,
+          company_head_office: userObj.company_head_office || userObj.profile?.company?.head_office || userObj.recruiter_profile?.company?.head_office || userObj.company?.head_office || null
         };
         onLogin(processedUser);
       }

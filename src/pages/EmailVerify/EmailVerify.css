@@ -1,0 +1,145 @@
+.email-verify-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+  padding: 1.5rem;
+  box-sizing: border-box;
+  font-family: 'Outfit', 'Inter', sans-serif;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99999;
+}
+
+.email-verify-card {
+  width: 100%;
+  max-width: 440px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 3rem 2.25rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.logo-container {
+  margin-bottom: 2.25rem;
+}
+
+.verify-logo {
+  height: 38px;
+  object-fit: contain;
+}
+
+.status-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.spinner-wrapper {
+  margin-bottom: 1.5rem;
+  color: var(--primary, #ea580c);
+}
+
+.spin-icon {
+  animation: spin 1.5s linear infinite;
+}
+
+.icon-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.success-circle {
+  background-color: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  color: #10b981;
+}
+
+.error-circle {
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.verify-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 0.75rem 0;
+  letter-spacing: -0.5px;
+}
+
+.verify-text {
+  font-size: 0.935rem;
+  color: #94a3b8;
+  line-height: 1.6;
+  margin: 0 0 2rem 0;
+}
+
+.action-btn {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.proceed-btn {
+  background-color: #ea580c;
+  border: 1px solid #ea580c;
+  color: #ffffff;
+}
+
+.proceed-btn:hover {
+  background-color: #d97706;
+  transform: translateY(-1px);
+}
+
+.back-btn {
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.back-btn:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.fade-in {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

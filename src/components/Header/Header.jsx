@@ -38,6 +38,14 @@ export default function Header({ toggleSidebar, isSidebarExpanded, logout, user,
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Force close all dropdown panels when user logs in or out
+  useEffect(() => {
+    setShowProfileDropdown(false);
+    setShowNotifications(false);
+    setShowMessages(false);
+    setShowSearchDropdown(false);
+  }, [user]);
+
   const handleSearchSuggestionClick = (text) => {
     setSearchValue(text);
     setShowSearchDropdown(false);
@@ -231,7 +239,15 @@ export default function Header({ toggleSidebar, isSidebarExpanded, logout, user,
                 aria-label="User Profile Dropdown"
               >
                 <div className="user-avatar">
-                  <span className="avatar-initials">{user.initials}</span>
+                  {user.avatar ? (
+                    <img 
+                      src={user.avatar} 
+                      alt="Avatar" 
+                      style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} 
+                    />
+                  ) : (
+                    <span className="avatar-initials">{user.initials}</span>
+                  )}
                 </div>
                 <div className="user-info-text">
                   <span className="user-name">{user.name}</span>

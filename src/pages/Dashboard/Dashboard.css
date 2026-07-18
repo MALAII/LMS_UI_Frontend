@@ -3,6 +3,7 @@
   flex-direction: column;
   gap: 2rem;
   width: 100%;
+  padding-bottom: 8rem; /* Creates enough scrolling space for sticky elements to dock */
 }
 
 /* 1. Hero Section Styling */
@@ -124,12 +125,23 @@
   grid-template-columns: 1.8fr 1.2fr;
   gap: 2.25rem;
   width: 100%;
+  align-items: start;
 }
 
-.courses-column, .activity-column {
+.courses-column {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+}
+
+.activity-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 5.5rem;
+  z-index: 10;
 }
 
 .section-header {

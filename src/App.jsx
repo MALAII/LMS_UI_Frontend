@@ -6,13 +6,13 @@ import Sidebar from './components/Sidebar/Sidebar';
 import RoleSidebar from './components/RoleSidebar/RoleSidebar';
 import AppRoutes from './routes/AppRoutes';
 import Login from './pages/Login/Login';
-import { configureAuthInterceptors } from './services/auth';
+import { configureAuthInterceptors, logoutService } from './services/auth';
 import './App.css';
 
 export default function App() {
   // Authentication State with User Profile details
   const [currentUser, setCurrentUser] = useState(() => {
-    const cached = localStorage.getItem('currentUser');
+    const cached = sessionStorage.getItem('currentUser');
     return cached ? JSON.parse(cached) : null;
   });
 
@@ -24,8 +24,10 @@ export default function App() {
   // Set up auth response interceptors for 401 logouts
   useEffect(() => {
     configureAuthInterceptors(() => {
-      handleLogout();
-      setIsLoginModalOpen(true);
+      if (sessionStorage.getItem('currentUser')) {
+        handleLogout(true); // Local cleanup only to prevent loops
+        setIsLoginModalOpen(true);
+      }
     });
   }, []);
 
@@ -49,14 +51,21 @@ export default function App() {
 
   const handleLogin = (userData) => {
     setCurrentUser(userData);
-    localStorage.setItem('currentUser', JSON.stringify(userData));
-    localStorage.setItem('isLoggedIn', 'true');
+    sessionStorage.setItem('currentUser', JSON.stringify(userData));
+    sessionStorage.setItem('isLoggedIn', 'true');
   };
 
-  const handleLogout = () => {
+  const handleLogout = async (localOnly = false) => {
+    if (!localOnly) {
+      try {
+        await logoutService();
+      } catch (err) {
+        console.error("Backend logout failed:", err);
+      }
+    }
     setCurrentUser(null);
-    localStorage.removeItem('currentUser');
-    localStorage.removeItem('isLoggedIn');
+    sessionStorage.removeItem('currentUser');
+    sessionStorage.removeItem('isLoggedIn');
     delete axios.defaults.headers.common['Authorization'];
   };
 
@@ -106,7 +115,9 @@ export default function App() {
               <AppRoutes 
                 user={currentUser} 
                 activePersona={activePersona}
+                logout={handleLogout}
                 onLoginClick={() => setIsLoginModalOpen(true)} 
+                onUpdateUser={handleLogin}
               />
             </main>
           </div>

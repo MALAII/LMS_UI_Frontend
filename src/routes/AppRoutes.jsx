@@ -5,6 +5,7 @@ import Courses from '../pages/Courses/Courses';
 import Students from '../pages/Students/Students';
 import Analytics from '../pages/Analytics/Analytics';
 import Settings from '../pages/Settings/Settings';
+import EmailVerify from '../pages/EmailVerify/EmailVerify';
 
 // Clean visual fallback for routes that are under active catalog development
 const MockPage = ({ title }) => (
@@ -64,10 +65,11 @@ const ProtectedRoute = ({ user, children, onLoginClick }) => {
   return children;
 };
 
-export default function AppRoutes({ user, onLoginClick }) {
+export default function AppRoutes({ user, onLoginClick, logout, onUpdateUser }) {
   return (
     <Routes>
       <Route path="/" element={<Dashboard user={user} onLoginClick={onLoginClick} />} />
+      <Route path="/email/verify/:id/:hash" element={<EmailVerify />} />
       
       {/* Protected Routes */}
       <Route 
@@ -98,7 +100,7 @@ export default function AppRoutes({ user, onLoginClick }) {
         path="/settings" 
         element={
           <ProtectedRoute user={user} onLoginClick={onLoginClick}>
-            <Settings user={user} />
+            <Settings user={user} logout={logout} onUpdateUser={onUpdateUser} />
           </ProtectedRoute>
         } 
       />
